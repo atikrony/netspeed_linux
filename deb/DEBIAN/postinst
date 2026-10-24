@@ -10,10 +10,42 @@ if command -v update-desktop-database >/dev/null 2>&1; then
     update-desktop-database -q /usr/share/applications || true
 fi
 
+# Update icon cache so NetSpeed icon appears immediately in all desktop menus
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+    gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true
+fi
+
+# Refresh running desktop menus & automatically launch NetSpeed for active GUI user sessions
+ACTIVE_USERS=$(who | awk '{print $1}' | sort -u)
+for u in $ACTIVE_USERS; do
+    uid=$(id -u "$u" 2>/dev/null || true)
+    if [ -n "$uid" ] && [ "$uid" -ge 1000 ]; then
+        disp=$(who | awk -v user="$u" '$1 == user && $NF ~ /^\(:[0-9]/ {gsub(/[()]/,"",$NF); print $NF; exit}')
+        [ -z "$disp" ] && disp=":0"
+        
+        # Refresh Cinnamon / GNOME menu if running so icon displays immediately
+        if [ -d "/run/user/$uid" ]; then
+            su - "$u" -c "DISPLAY=$disp DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$uid/bus gdbus call --session --dest org.Cinnamon --object-path /org/Cinnamon --method org.Cinnamon.Eval 'try { imports.ui.main.AppletManager.getRunningInstancesForUuid(\"menu@cinnamon.org\").forEach(m => m._refreshApps()); } catch(e){}' >/dev/null 2>&1" || true
+        fi
+        
+        # Stop any old running instance first
+        pkill -u "$u" -f "netspeed.py" >/dev/null 2>&1 || true
+        sleep 0.5
+        
+        # Automatically launch NetSpeed in background for this desktop session
+        if [ -d "/run/user/$uid" ]; then
+            su - "$u" -c "DISPLAY=$disp DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$uid/bus XDG_RUNTIME_DIR=/run/user/$uid nohup /usr/bin/netspeed >/dev/null 2>&1 &" 2>/dev/null || true
+        else
+            su - "$u" -c "DISPLAY=$disp nohup /usr/bin/netspeed >/dev/null 2>&1 &" 2>/dev/null || true
+        fi
+    fi
+done
+
 echo ""
 echo "╔══════════════════════════════════════════════╗"
-echo "║  NetSpeed installed successfully!            ║"
-echo "║  - Launch anytime from your Start Menu       ║"
+echo "║  NetSpeed installed & running!               ║"
+echo "║  - Panel indicator launched automatically    ║"
+echo "║  - Shortcut available in your Start Menu     ║"
 echo "║  - Will auto-start on every login            ║"
 echo "╚══════════════════════════════════════════════╝"
 echo ""

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="netspeed.png" alt="NetSpeed Logo" width="128" height="128" />
+</p>
+
 # NetSpeed
 
 NetSpeed is a lightweight Linux panel indicator for monitoring real-time
@@ -58,14 +62,14 @@ desktop autostart.
 The repository includes a Debian package:
 
 ```bash
-sudo apt install ./netspeed_1.0.0_all.deb
+sudo apt install ./netspeed_1.0.0.deb
 ```
 
 To build a fresh package from the source files:
 
 ```bash
 ./build-deb.sh
-sudo apt install ./netspeed_1.0.0_all.deb
+sudo apt install ./netspeed_1.0.0.deb
 ```
 
 ## Dependencies
@@ -115,9 +119,12 @@ NetSpeed does not perform a speed test or send network traffic to measure
 throughput.
 
 NetSpeed optionally sends one anonymous active-user request per day to
-GoatCounter to help the developer understand usage. This option is enabled
+GoatCounter (https://netspeed-linux.goatcounter.com) to help the developer understand usage. This option is enabled
 by default and can be disabled from **Settings & Usage**. No network speed,
 interface name, or usage totals are included in the analytics request.
+
+<script data-goatcounter="https://netspeed-linux.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 
 ## Uninstallation
 

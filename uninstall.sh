@@ -44,6 +44,9 @@ fi
 LOCAL_INSTALL="$HOME/.local/share/netspeed"
 AUTOSTART_FILE="$HOME/.config/autostart/netspeed.desktop"
 APP_DESKTOP="$HOME/.local/share/applications/netspeed.desktop"
+BIN_FILE="$HOME/.local/bin/netspeed"
+PIXMAP_FILE="$HOME/.local/share/pixmaps/netspeed.png"
+ICONS_BASE="$HOME/.local/share/icons/hicolor"
 
 REMOVED_LOCAL=false
 
@@ -62,8 +65,32 @@ if [ -f "$APP_DESKTOP" ]; then
     REMOVED_LOCAL=true
 fi
 
+if [ -f "$BIN_FILE" ]; then
+    rm -f "$BIN_FILE"
+    REMOVED_LOCAL=true
+fi
+
+if [ -f "$PIXMAP_FILE" ]; then
+    rm -f "$PIXMAP_FILE"
+    REMOVED_LOCAL=true
+fi
+
+for size in 16 22 24 32 48 64 96 128 256 512; do
+    icon_file="$ICONS_BASE/${size}x${size}/apps/netspeed.png"
+    if [ -f "$icon_file" ]; then
+        rm -f "$icon_file"
+        REMOVED_LOCAL=true
+    fi
+done
+
 if [ "$REMOVED_LOCAL" = true ]; then
-    info "Local user installation files and autostart removed."
+    if command -v update-desktop-database >/dev/null 2>&1; then
+        update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
+    fi
+    if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+        gtk-update-icon-cache -q -t -f "$ICONS_BASE" 2>/dev/null || true
+    fi
+    info "Local user installation files, shortcuts, and icons removed."
 fi
 
 echo ""

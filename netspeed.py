@@ -105,9 +105,13 @@ class NetSpeedIndicator:
     DATA_DIR = os.path.expanduser("~/.local/share/netspeed")
     PANEL_HEIGHT = 38  # Default base height for 40px panels
     SETTINGS_FILE = "settings.json"
-    GOATCOUNTER_ENDPOINT = "https://atiq.goatcounter.com/count"
+    GOATCOUNTER_ENDPOINT = "https://netspeed-linux.goatcounter.com/count"
 
     def __init__(self):
+        try:
+            Gtk.Window.set_default_icon_name("netspeed")
+        except Exception:
+            pass
         self._icon_dir = tempfile.mkdtemp(prefix="netspeed_")
         self._icon_flip = False
 
@@ -508,6 +512,10 @@ class NetSpeedIndicator:
 
         dialog = Gtk.Window(type=Gtk.WindowType.TOPLEVEL)
         dialog.set_title("NetSpeed — Settings & Usage")
+        try:
+            dialog.set_icon_name("netspeed")
+        except Exception:
+            pass
         dialog.set_default_size(540, 680)  # Sized so all elements + credit are visible on start
         dialog.set_position(Gtk.WindowPosition.CENTER)
         dialog.set_border_width(12)
