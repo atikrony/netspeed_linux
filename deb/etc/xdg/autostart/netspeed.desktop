@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=NetSpeed
+Comment=Network speed indicator for the panel
+Exec=netspeed
+Icon=network-transmit-receive
+Terminal=false
+X-GNOME-Autostart-enabled=true
+Categories=Utility;

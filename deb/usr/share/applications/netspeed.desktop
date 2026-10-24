@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=NetSpeed
+GenericName=Network Speed Indicator
+Comment=Monitor real-time network speed and data usage in your panel
+Exec=netspeed
+Icon=network-transmit-receive
+Terminal=false
+Categories=Network;Utility;Monitor;
+Keywords=network;speed;indicator;bandwidth;download;upload;
+StartupNotify=false

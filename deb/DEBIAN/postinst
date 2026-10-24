@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+# Make scripts executable
+chmod 0755 /usr/bin/netspeed 2>/dev/null || true
+chmod 0755 /usr/share/netspeed/netspeed.py 2>/dev/null || true
+
+# Update desktop application database so NetSpeed appears immediately in Start Menu
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database -q /usr/share/applications || true
+fi
+
+echo ""
+echo "╔══════════════════════════════════════════════╗"
+echo "║  NetSpeed installed successfully!            ║"
+echo "║  - Launch anytime from your Start Menu       ║"
+echo "║  - Will auto-start on every login            ║"
+echo "╚══════════════════════════════════════════════╝"
+echo ""
+
+exit 0

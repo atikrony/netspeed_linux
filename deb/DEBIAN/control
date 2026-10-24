@@ -1,0 +1,21 @@
+Package: netspeed
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: all
+Depends: python3, python3-cairo, gir1.2-gtk-3.0, gir1.2-appindicator3-0.1 | gir1.2-ayatana-appindicator3-0.1 | gir1.2-xapp-1.0
+Maintainer: Atik Rony <https://github.com/atikrony>
+Homepage: https://github.com/atikrony
+Description: NetSpeed — Lightweight real-time network speed panel indicator
+ A clean system panel indicator that displays real-time upload and
+ download speeds stacked vertically in the panel.
+ .
+ Features:
+  - Real-time upload and download speeds stacked (U: / D:)
+  - Instantaneous network throughput without lagging
+  - Multi-unit selector (Mbps, MB/s, Kbps, KB/s, Gbps, GB/s, etc.)
+  - Customizable font family and font size selector
+  - Custom color pickers for upload and download fonts
+  - Daily data usage and monthly history tracking
+  - Hover tooltip displaying today's total data usage
+  - Compatible with Debian, Ubuntu, Linux Mint (Cinnamon), and derivatives
